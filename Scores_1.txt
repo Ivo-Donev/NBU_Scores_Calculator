@@ -1,0 +1,21 @@
+Scores and Information:
+Top Test Score: 63.0
+Matura 1 Score: 4.87
+Matura 2 Score: 3.09
+Final Score For Entering NBU: 590
+Points needed next time for the Top Test: -9
+
+Scores for Subjects:
+Бълг.: 5
+Лит.: 8
+Ист.: 5
+Георг.: 6
+Матем.: 5
+Физ.: 6
+Хим.: 8
+Биол.: 8
+Разс.: 6
+Сем.: 6
+
+Subjects that need improvement:
+Бълг., Ист., Матем.
