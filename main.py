@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from prettytable import PrettyTable
 
 
@@ -11,7 +12,7 @@ def prioritize_subjects(subjects_scores):
     return lowest_subjects
 
 
-def write_to_score_file(file_number, NBU_test_score, Matura_1_score, Matura_2_score, Final_score, needed_Top_score, subjects_scores, prioritized_subjects):
+def write_to_txt(file_number, NBU_test_score, Matura_1_score, Matura_2_score, Final_score, needed_Top_score, subjects_scores, prioritized_subjects):
     new_filename = f"Scores_{file_number}.txt"
     with open(new_filename, "w", encoding="utf-8") as file:
         file.write("Scores and Information:\n")
@@ -29,6 +30,29 @@ def write_to_score_file(file_number, NBU_test_score, Matura_1_score, Matura_2_sc
         file.write(", ".join(prioritized_subjects))
 
     print(f"File '{new_filename}' created successfully.")
+
+
+def write_to_csv(file_number, NBU_test_score, Matura_1_score, Matura_2_score, Final_score, needed_Top_score, subjects_scores, prioritized_subjects):
+    data = {
+        'Top Test Score': [NBU_test_score],
+        'Matura 1 Score': [Matura_1_score],
+        'Matura 2 Score': [Matura_2_score],
+        'Final Score For Entering NBU': [Final_score],
+    }
+
+    df = pd.DataFrame(data)
+    df['Points you need next time you do the Top Test'] = [needed_Top_score]
+
+    subjects = ["Бълг.", "Лит.", "Ист.", "Георг.", "Матем.", "Физ.", "Хим.", "Биол.", "Разс.", "Сем."]
+    for subject in subjects:
+        df[subject] = [subjects_scores.get(subject, '')]
+
+    prioritized_subjects_str = ', '.join(prioritized_subjects)
+    df['Subjects that need improvement'] = [prioritized_subjects_str]
+
+    csv_filename = f"Scores_{file_number}.csv"
+    df.to_csv(csv_filename, index=False, encoding="utf-8")
+    print(f"File '{csv_filename}' created successfully.")
 
 
 def NBU_Calculator():
@@ -72,7 +96,7 @@ def NBU_Calculator():
 
         # Find the latest numbered Scores file in the directory
         current_dir = os.getcwd()
-        existing_files = [f for f in os.listdir(current_dir) if f.startswith("Scores_") and f.endswith(".txt")]
+        existing_files = [f for f in os.listdir(current_dir) if f.startswith("Scores_") and (f.endswith(".csv") or f.endswith(".txt"))]
 
         if existing_files:
             latest_number = max(int(file.split("_")[1].split(".")[0]) for file in existing_files)
@@ -80,8 +104,9 @@ def NBU_Calculator():
         else:
             new_file_number = 1
 
-        # Write scores and information to the file
-        write_to_score_file(new_file_number, NBU_test_score, Matura_1_score, Matura_2_score, Final_score, needed_Top_score, subjects_scores, prioritized_subjects)
+        # Write scores and information to both CSV and TXT files using the respective functions
+        write_to_csv(new_file_number, NBU_test_score, Matura_1_score, Matura_2_score, Final_score, needed_Top_score, subjects_scores, prioritized_subjects)
+        write_to_txt(new_file_number, NBU_test_score, Matura_1_score, Matura_2_score, Final_score, needed_Top_score, subjects_scores, prioritized_subjects)
 
     else:
         print("Have a great time in NBU next year then!")
