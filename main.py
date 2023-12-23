@@ -11,15 +11,15 @@ def prioritize_subjects(subjects_scores):
     return lowest_subjects
 
 
-def write_to_score_file(file_number, NBU_test_score, Matura_1_score, Matura_2_score, Final_score, needed_Top_score, subjects_scores, prioritized_subjects):
+def write_to_score_file(file_number, nbu_test_score, matura_1_score, matura_2_score, final_score, needed_top_score, subjects_scores, prioritized_subjects):
     new_filename = f"Scores_{file_number}.txt"
     with open(new_filename, "w", encoding="utf-8") as file:
         file.write("Scores and Information:\n")
-        file.write(f"Top Test Score: {NBU_test_score}\n")
-        file.write(f"Matura 1 Score: {Matura_1_score}\n")
-        file.write(f"Matura 2 Score: {Matura_2_score}\n")
-        file.write(f"Final Score For Entering NBU: {Final_score}\n")
-        file.write(f"Points needed next time for the Top Test: {needed_Top_score}\n")
+        file.write(f"Top Test Score: {nbu_test_score}\n")
+        file.write(f"Matura 1 Score: {matura_1_score}\n")
+        file.write(f"Matura 2 Score: {matura_2_score}\n")
+        file.write(f"Final Score For Entering NBU: {final_score}\n")
+        file.write(f"Points needed next time for the Top Test: {needed_top_score}\n")
 
         file.write("\nScores for Subjects:\n")
         for subject, score in subjects_scores.items():
@@ -31,22 +31,22 @@ def write_to_score_file(file_number, NBU_test_score, Matura_1_score, Matura_2_sc
     print(f"File '{new_filename}' created successfully.")
 
 
-def NBU_Calculator():
+def nbu_calculator():
     print("Welcome to NBU score calculator, please prepare your NBU TOP score and matura grades.")
 
-    NBU_test_score = float(input("How many points did you get at the TOP test? "))
-    Matura_1_score = float(input("What grade did you get at the first matura test? "))
-    Matura_2_score = float(input("What grade did you get at the second matura test? "))
+    nbu_test_score = float(input("How many points did you get at the TOP test? "))
+    matura_1_score = float(input("What grade did you get at the first matura test? "))
+    matura_2_score = float(input("What grade did you get at the second matura test? "))
 
-    Matura_score = ((Matura_1_score + Matura_2_score) / 2) - 2
-    Matura_score_for_NBU = (75 * Matura_score)
-    Final_score = round((7 * NBU_test_score) + Matura_score_for_NBU)
+    matura_score = ((matura_1_score + matura_2_score) / 2) - 2
+    matura_score_for_nbu = (75 * matura_score)
+    final_score = round((7 * nbu_test_score) + matura_score_for_nbu)
 
     score_table = PrettyTable()
-    score_table.add_column("Top Test Score", [NBU_test_score])
-    score_table.add_column("Matura 1 Score", [Matura_1_score])
-    score_table.add_column("Matura 2 Score", [Matura_2_score])
-    score_table.add_column("Final Score For Entering NBU", [Final_score])
+    score_table.add_column("Top Test Score", [nbu_test_score])
+    score_table.add_column("Matura 1 Score", [matura_1_score])
+    score_table.add_column("Matura 2 Score", [matura_2_score])
+    score_table.add_column("Final Score For Entering NBU", [final_score])
 
     print(score_table)
 
@@ -54,10 +54,10 @@ def NBU_Calculator():
 
     if answer == "no":
         needed_score = int(input("And how many overall points do you need/want to have? "))
-        points_after_calculation = (needed_score - Matura_score_for_NBU)
-        needed_Top_score = int(points_after_calculation / 7)
+        points_after_calculation = (needed_score - matura_score_for_nbu)
+        needed_top_score = int(points_after_calculation / 7)
 
-        score_table.add_column("Points you need next time you do the Top Test", [needed_Top_score])
+        score_table.add_column("Points you need next time you do the Top Test", [needed_top_score])
         print(score_table)
 
         subjects = ["Бълг.", "Лит.", "Ист.", "Георг.", "Матем.", "Физ.", "Хим.", "Биол.", "Разс.", "Сем."]
@@ -81,12 +81,12 @@ def NBU_Calculator():
             new_file_number = 1
 
         # Write scores and information to the file
-        write_to_score_file(new_file_number, NBU_test_score, Matura_1_score, Matura_2_score, Final_score, needed_Top_score, subjects_scores, prioritized_subjects)
+        write_to_score_file(new_file_number, nbu_test_score, matura_1_score, matura_2_score, final_score, needed_top_score, subjects_scores, prioritized_subjects)
 
     else:
         print("Have a great time in NBU next year then!")
 
 
 # Run the program
-NBU_Calculator()
+nbu_calculator()
 input()
